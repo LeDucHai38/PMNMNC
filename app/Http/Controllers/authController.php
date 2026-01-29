@@ -4,47 +4,49 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class authController extends Controller
+class AuthController extends Controller
 {
-    private $validUsername = 'leduchai';
-    private $validPassword = '123456';
-
-    public function showLogin()
-    {
-        return view('auth.login');
-    }
-
-    public function checkLogin(Request $request)
-    {
-        $username = $request->input('username');
-        $password = $request->input('password');
-
-        if ($username === $this->validUsername && $password === $this->validPassword) {
-            return redirect('/')->with('success', 'Đăng nhập thành công!');
+    public function checklogin(Request $request) {
+        $name = $request -> input('name');
+        $pass = $request -> input('pass');
+        if ($name === 'leduchai' && $pass === '0047667'){
+            return view('Auth.Login', ['success' => 'Login successful!']);
+        } else {
+            return view('Auth.Login', ['error' => 'Invalid username or password.']);
         }
-
-        return redirect()->route('auth.login')->withErrors([
-            'login' => 'Tên đăng nhập hoặc mật khẩu không chính xác!',
-        ]);
     }
 
-    public function showSignup()
-    {
-        return view('auth.signup');
+    public function login() {
+        return view('Auth.Login');
     }
 
-    public function checkSignup(Request $request)
-    {
-        $username = $request->input('username');
+    public function register() {
+        return view('Auth.Register');
+    }
 
-        if ($username === $this->validUsername) {
-            return redirect()->route('auth.signup')->withErrors([
-                'signup' => 'Tên đăng nhập này đã tồn tại!',
-            ]);
+    public function checkregister( Request $request) {
+        $name = $request->input('name');
+        $pass = $request->input('pass');
+        $repass = $request->input('repass');
+        $mssv = $request->input('mssv');
+        $lopmonhoc = $request->input('lopmonhoc');
+        $gioitinh = $request->input('gioitinh');
+        
+        if($name == "leduchai" && $pass == "123abc" && $repass == "123abc" && 
+           $mssv == "0047667" && $lopmonhoc == "67PM2" && $gioitinh == "Nam"){
+            return view('Auth.Login', ['success' => 'Registration successful! Please log in.']);
+        } else {
+            return view('Auth.Register', ['error' => 'Information does not match']);
         }
-
-        return redirect()->route('auth.login')->with('success', 'Đăng ký thành công! Vui lòng đăng nhập.');
     }
 
+    public function ageStore(Request $request) {
+        $age = $request->input('age');
+        session(['age' => $age]);
+        return redirect()->route('product.index');
+    }
 
+    public function ageSelect() {
+        return view('Auth.AgeChecking');
+    }
 }

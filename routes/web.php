@@ -1,29 +1,37 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\CheckTimeAccess;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\authController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TestController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('/auth')->group(function () {
-    Route::get('/login', [authController::class, 'showLogin'])->name('auth.login');
-    Route::post('/check-login', [authController::class, 'checkLogin'])->name('auth.check-login');
-    Route::get('/signup', [authController::class, 'showSignup'])->name('auth.signup');
-    Route::post('/check-signup', [authController::class, 'checkSignup'])->name('auth.check-signup');
-    Route::get('/logout', [authController::class, 'logout'])->name('auth.logout');
+Route::prefix('/product')->group(function(){
+    Route::controller(ProductController::class) -> group(function () {
+        Route::get('/', 'index') -> name('product.index');
+
+        Route::get('/add', 'create') -> name('add');
+
+        Route::get('/detail/{id?', 'get');
+
+        Route::post('/store', 'store');
+    });
 });
 
-Route::prefix('/product') -> group(function(){
-   Route::get('/', [ProductController::class, 'index'])-> name('product.index');
+Route::prefix('/auth') -> group(function(){
+    Route::controller(AuthController::class) -> group(function () {
+        Route::get('/login', 'login') -> name('auth.login');
 
-    Route::get('/add', function () {
-    return view('product.add');
-}) -> name('add');
+        Route::post('/checklogin', 'checklogin') -> name('checklogin');
 
-    Route::get('/detail/{id?}', [ProductController::class, 'getDetail']); 
+        Route::get('/register', 'register') -> name('register');
+
+        Route::post('/checkregister', 'checkregister') -> name ('register.post');
+    });
 });
 
 Route::get('/sinhvien/{name?}/{mssv?}', function(string $name = 'Luong Xuan Hieu', string $mssv = '123456'){
@@ -32,6 +40,12 @@ Route::get('/sinhvien/{name?}/{mssv?}', function(string $name = 'Luong Xuan Hieu
         'mssv' => $mssv,
     ]);
 });
+
+Route::resource('/tests', TestController::class);
+
+Route::get('/age', [AuthController::class, 'ageSelect'])->name('age.select');
+
+Route::post('/age/store', [AuthController::class, 'ageStore'])->name('age.store');
 
 Route::get('/banco/{n}', function($n){
     return view('banco', ['n' => $n]);

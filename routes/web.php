@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\CheckTimeAccess;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
@@ -19,6 +20,17 @@ Route::prefix('/product')->group(function(){
         Route::get('/detail/{id?', 'get');
 
         Route::post('/store', 'store');
+    });
+});
+
+Route::prefix('/category')->group(function(){
+    Route::controller(CategoryController::class)->group(function () {
+        Route::get('/', 'index')->name('category.index');
+        Route::get('/create', 'create')->name('category.create');
+        Route::post('/store', 'store')->name('category.store');
+        Route::get('/edit/{id}', 'edit')->name('category.edit');
+        Route::post('/update/{id}', 'update')->name('category.update');
+        Route::post('/delete/{id}', 'destroy')->name('category.destroy');
     });
 });
 

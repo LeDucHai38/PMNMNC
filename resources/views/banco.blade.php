@@ -1,28 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bàn cờ XO</title>
+@extends('layouts.admin')
 
+@section('title', 'Ban co XO')
+
+@push('styles')
     <style>
-        body {
-            margin: 0;
-            height: 100vh;
+        .board-wrap {
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #f4f6f8;
-            font-family: Arial, sans-serif;
         }
-
-        table {
+        .board-table {
             border-collapse: collapse;
             box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            background: white;
+            background: #ffffff;
         }
-
-        td {
+        .board-table td {
             width: 60px;
             height: 60px;
             text-align: center;
@@ -32,37 +24,34 @@
             border: 1px solid #ddd;
             transition: background 0.2s;
         }
-
-        td:hover {
+        .board-table td:hover {
             background: #ecf0f1;
         }
-
-        .x {
+        .board-x {
             color: #e74c3c;
         }
-
-        .o {
+        .board-o {
             color: #3498db;
         }
     </style>
-</head>
-<body>
+@endpush
 
-<table>
-    @for ($i = 1; $i <= $n; $i++)
-        <tr>
-            @for ($j = 1; $j <= $n; $j++)
-                <td>
-                    @if (($i + $j) % 2 == 0)
-                        <span class="x">X</span>
-                    @else
-                        <span class="o">O</span>
-                    @endif
-                </td>
+@section('content')
+    <div class="board-wrap">
+        <table class="board-table">
+            @for ($i = 1; $i <= $n; $i++)
+                <tr>
+                    @for ($j = 1; $j <= $n; $j++)
+                        <td>
+                            @if (($i + $j) % 2 == 0)
+                                <span class="board-x">X</span>
+                            @else
+                                <span class="board-o">O</span>
+                            @endif
+                        </td>
+                    @endfor
+                </tr>
             @endfor
-        </tr>
-    @endfor
-</table>
-
-</body>
-</html>
+        </table>
+    </div>
+@endsection

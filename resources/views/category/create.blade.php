@@ -3,7 +3,7 @@
 @section('title', 'Them moi danh muc')
 
 @section('content')
-    <h2>Thêm mới danh mục</h2>
+    <h2>Them moi danh muc</h2>
 
     @if ($errors->any())
         <div>
@@ -18,30 +18,30 @@
     <form action="{{ route('category.store') }}" method="post">
         @csrf
         <div>
-            <label for="name">Tên danh mục:</label>
+            <label for="name">Ten danh muc:</label>
             <input type="text" name="name" value="{{ old('name') }}">
         </div>
 
         <br>
 
         <div>
-            <label for="description">Mô tả:</label>
+            <label for="description">Mo ta:</label>
             <textarea name="description">{{ old('description') }}</textarea>
         </div>
 
         <br>
 
         <div>
-            <label for="image">Hình ảnh:</label>
+            <label for="image">Hinh anh:</label>
             <input type="text" name="image" value="{{ old('image') }}">
         </div>
 
         <br>
 
         <div>
-            <label for="parent_id">Danh mục cha:</label>
+            <label for="parent_id">Danh muc cha:</label>
             <select name="parent_id">
-                <option value="">Không có</option>
+                <option value="">Khong co</option>
                 @foreach ($categories as $category)
                     <option value="{{ $category->id }}" @selected(old('parent_id') == $category->id)>
                         {{ $category->name }}
@@ -55,13 +55,13 @@
         <div>
             <label>
                 <input type="checkbox" name="is_active" value="1" {{ old('is_active', true) ? 'checked' : '' }}>
-                Kích hoạt
+                Kich hoat
             </label>
         </div>
 
         <br>
 
-        <button type="submit">Lưu</button>
+        <button type="submit">Luu</button>
         <a href="{{ route('category.index') }}">Back</a>
     </form>
 @endsection

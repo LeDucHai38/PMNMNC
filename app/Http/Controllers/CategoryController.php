@@ -82,7 +82,7 @@ class CategoryController extends Controller
             $descendantIds = $this->getDescendantIds($category);
             if ($parentId === $category->id || in_array($parentId, $descendantIds, true)) {
                 return back()
-                    ->withErrors(['parent_id' => 'Danh mục cha không hợp lệ.'])
+                    ->withErrors(['parent_id' => 'Danh muc cha khong hop le.'])
                     ->withInput();
             }
         }
